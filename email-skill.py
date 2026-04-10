@@ -9,7 +9,7 @@ import email
 from email.header import decode_header
 import requests
 
-TELEGRAM_BOT_TOKEN = "8786126274:AAEWyu2yuOuPbsWkUaReIXphVk1U8-J63dQ"
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8786126274:AAEWyu2yuOuPbsWkUaReIXphVk1U8-J63dQ")
 TELEGRAM_CHANNEL = -1003995474645
 
 class Colors:
