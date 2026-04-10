@@ -1,29 +1,3 @@
-- name: Create config
-  run: |
-    cat > email-skill-config.json << 'EOF'
-    {
-      "email_config": {
-        "provider": "GMX",
-        "email_address": "${{ secrets.EMAIL_ADDRESS }}",
-        "app_password": "${{ secrets.EMAIL_APP_PASSWORD }}",
-        "imap_server": "imap.gmx.net",
-        "imap_port": 993,
-        "use_ssl": true,
-        "folder": "INBOX"
-      },
-      "scanning": {
-        "enabled": true
-      },
-      "output": {
-        "format": "markdown"
-      },
-      "logging": {
-        "enabled": true
-      }
-    }
-    EOF
-
-
 name: Email Skill
 
 on:
@@ -40,7 +14,28 @@ jobs:
         with:
           python-version: '3.9'
       - run: pip install requests
+      
+      - name: Create config
+        run: |
+          cat > email-skill-config.json << 'EOF'
+          {
+            "email_config": {
+              "provider": "GMX",
+              "email_address": "${{ secrets.EMAIL_ADDRESS }}",
+              "app_password": "${{ secrets.EMAIL_APP_PASSWORD }}",
+              "imap_server": "imap.gmx.net",
+              "imap_port": 993,
+              "use_ssl": true,
+              "folder": "INBOX"
+            },
+            "scanning": {"enabled": true},
+            "output": {"format": "markdown"},
+            "logging": {"enabled": true}
+          }
+          EOF
+      
       - run: python3 email-skill.py
         env:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
           EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
